@@ -4,6 +4,7 @@ import Container from "./components/container/Container";
 
 import Navbar from "./components/navbar/Navbar";
 import Articles from "./pages/articles/Articles";
+import Login from "./pages/login/Login";
 
 function App() {
   return (
@@ -31,6 +32,14 @@ function App() {
         </Background>
 
         <Articles />
+
+        <br />
+        <br />
+
+        <Login />
+
+        <br />
+        <br />
       </Container>
     </>
   );

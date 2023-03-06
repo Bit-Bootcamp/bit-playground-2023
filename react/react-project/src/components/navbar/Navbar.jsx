@@ -6,7 +6,7 @@ import Container from "../container/Container";
 
 function Navbar() {
   const img = "/userprofile.img";
-  const user = {
+  const userData = {
     firstName: "Hama",
     lastName: "Saadwn",
     profile: `http://localhost3000${img}`,
@@ -14,8 +14,17 @@ function Navbar() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  const [user, setUser] = useState(userData);
+
   const handleClick = () => {
     setIsLoggedIn(!isLoggedIn);
+  };
+
+  const handleChangeClick = () => {
+    setUser({
+      ...user,
+      firstName: "Mohammed",
+    });
   };
 
   return (
@@ -43,6 +52,12 @@ function Navbar() {
               handleClick={handleClick}
             />
           </li>
+
+          <li>
+            <a href="">{user.firstName}</a>
+          </li>
+
+          <Button text="change user" handleClick={handleChangeClick} />
         </ul>
       </Container>
     </nav>
