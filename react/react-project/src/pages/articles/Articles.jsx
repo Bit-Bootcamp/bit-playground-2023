@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 import "./Articles.css";
 import { data } from "../../data";
@@ -7,9 +7,15 @@ import ArticleCard from "../../components/cards/ArticleCard";
 import Button from "../../components/button/Button";
 
 const Articles = () => {
-  const [filteredData, setFilteredData] = useState(data);
+  const [filteredData, setFilteredData] = useState();
 
   const [fetchData, setFetchData] = useState([]);
+
+  const cachedData = useMemo(() => {
+    return (
+      filteredData && filteredData.map((fd) => ({ ...fd, date: Date.now() }))
+    );
+  }, [filteredData]);
 
   const handleFilter = (category) => {
     const dataFiltered = data.filter((article) => {
@@ -17,6 +23,10 @@ const Articles = () => {
     });
     setFilteredData(dataFiltered);
   };
+
+  useEffect(() => {
+    setFilteredData(data);
+  }, []);
 
   const handleAllData = () => {
     setFilteredData(data);
@@ -33,15 +43,22 @@ const Articles = () => {
     requestData();
   }, []);
 
+  // useEffect(() => {
+  //   setFilteredData(filteredData.map((fd) => ({ ...fd, date: Date.now() })));
+  // }, [filteredData]);
+
+  console.log(cachedData);
+
   return (
     <>
       <Button text="All" handleClick={handleAllData} />
       <Button text="News" handleClick={() => handleFilter("news")} />
       <Button text="Blogs" handleClick={() => handleFilter("blog")} />
       <section className="articles">
-        {filteredData.map((article) => {
-          return <ArticleCard {...article} key={article.id} />;
-        })}
+        {filteredData &&
+          cachedData.map((article) => {
+            return <ArticleCard {...article} key={article.id} />;
+          })}
       </section>
     </>
   );
