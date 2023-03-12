@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import logo from "../../assets/images/logo.svg";
 import Button from "../button/Button";
@@ -20,44 +21,31 @@ function Navbar() {
     setIsLoggedIn(!isLoggedIn);
   };
 
-  const handleChangeClick = () => {
-    setUser({
-      ...user,
-      firstName: "Mohammed",
-    });
-  };
+  // const handleChangeClick = () => {
+  //   setUser({
+  //     ...user,
+  //     firstName: "Mohammed",
+  //   });
+  // };
 
   return (
     <nav className="navbar">
       <Container>
-        <a className="logo" href="/">
+        <Link className="logo" to="/">
           <img src={logo} alt="Potan Logo" />
-        </a>
+        </Link>
         <ul>
           <li>
-            <a href="/about">About</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href="/about">About</a>
+            <Link to="/articles">Articles</Link>
           </li>
           <li>
-            <a href="/about">About</a>
+            <Link to="/login">
+              <Button text="Login" />
+            </Link>
           </li>
-          <li>
-            <a href="/about">About</a>
-          </li>
-          <li>
-            <Button
-              text={isLoggedIn ? "Logout" : "Login"}
-              handleClick={handleClick}
-            />
-          </li>
-
-          <li>
-            <a href="">{user.firstName}</a>
-          </li>
-
-          <Button text="change user" handleClick={handleChangeClick} />
         </ul>
       </Container>
     </nav>

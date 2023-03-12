@@ -17,7 +17,7 @@ export const data = [
   },
   {
     id: 3,
-    title: "News",
+    title: "war",
     desc: "tfdsadgfdasg nlkfidacfsa ",
     category: "News",
     imgUrl:
@@ -25,7 +25,7 @@ export const data = [
   },
   {
     id: 4,
-    title: "News",
+    title: "drugs",
     desc: "tfdsadgfdasg nlkfidacfsa ",
     category: "News",
     imgUrl:

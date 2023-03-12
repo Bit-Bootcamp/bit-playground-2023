@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import "./ArticleCard.styles.css";
 
-const ArticleCard = ({ title, desc, category, imgUrl }) => {
+const ArticleCard = ({ id, title, desc, category, imgUrl }) => {
   return (
     <article className="card">
       <figure>
@@ -13,7 +14,7 @@ const ArticleCard = ({ title, desc, category, imgUrl }) => {
         <p>{desc}</p>
       </div>
       <div className="read-more">
-        <a href="#">Read more</a>
+        <Link to={`/articles/${id}`}>Read more</Link>
       </div>
     </article>
   );
