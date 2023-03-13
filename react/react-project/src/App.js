@@ -7,6 +7,8 @@ import Login from "./pages/login/Login";
 import Home from "./pages/home/Home";
 import Article from "./pages/articles/Article";
 import AddArticle from "./pages/articles/AddArticle";
+import NotFound from "./pages/NotFound";
+import ArticlesNavbar from "./components/navbar/ArticlesNavbar";
 
 function App() {
   return (
@@ -15,9 +17,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/articles" element={<Articles />} />
-        <Route path="/articles/:id/:username" element={<Article />} />
-        <Route path="/articles/addarticle" element={<AddArticle />} />
+
+        <Route path="/articles" element={<ArticlesNavbar />}>
+          <Route index element={<Articles />} />
+          <Route path=":id" element={<Article />} />
+          <Route path="addarticle" element={<AddArticle />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {/* <Navbar />
       <Container>

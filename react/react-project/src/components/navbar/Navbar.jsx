@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import logo from "../../assets/images/logo.svg";
 import Button from "../button/Button";
@@ -36,10 +36,10 @@ function Navbar() {
         </Link>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <NavLink to="/">Home</NavLink>
           </li>
           <li>
-            <Link to="/articles">Articles</Link>
+            <NavLink to="/articles">Articles</NavLink>
           </li>
           <li>
             <Link to="/login">

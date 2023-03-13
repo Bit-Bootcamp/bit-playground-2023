@@ -104,3 +104,8 @@ img {
 .card img {
   width: 100%;
 }
+
+a.active {
+  color: green;
+  text-decoration: underline;
+}
