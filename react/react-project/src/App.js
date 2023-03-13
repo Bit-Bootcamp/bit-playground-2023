@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
 import "./App.css";
 import Navbar from "./components/navbar/Navbar";
@@ -11,15 +12,21 @@ import NotFound from "./pages/NotFound";
 import ArticlesNavbar from "./components/navbar/ArticlesNavbar";
 
 function App() {
+  const [isDark, setIsDark] = useState(false);
+
+  const handleThemeChange = () => {
+    setIsDark(!isDark);
+  };
+
   return (
-    <>
-      <Navbar />
+    <div className={isDark && "bg-dark"}>
+      <Navbar isDark={isDark} handleThemeChange={handleThemeChange} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
 
-        <Route path="/articles" element={<ArticlesNavbar />}>
-          <Route index element={<Articles />} />
+        <Route path="/articles">
+          <Route index element={<Articles isDark={isDark} />} />
           <Route path=":id" element={<Article />} />
           <Route path="addarticle" element={<AddArticle />} />
         </Route>
@@ -41,7 +48,7 @@ function App() {
         <br />
         <br />
       </Container> */}
-    </>
+    </div>
   );
 }
 

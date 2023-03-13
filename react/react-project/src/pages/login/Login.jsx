@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Container from "../../components/container/Container";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -43,7 +44,7 @@ const Login = () => {
   }
 
   return (
-    <section>
+    <Container>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="email">Email </label>
@@ -71,7 +72,7 @@ const Login = () => {
       </form>
 
       {error ? <p style={{ color: "red" }}>{error.message}</p> : null}
-    </section>
+    </Container>
   );
 };
 

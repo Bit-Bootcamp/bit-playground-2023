@@ -1,8 +1,11 @@
 import "./button.styles.css";
 
-function Button({ text, handleClick }) {
+function Button({ text, handleClick, isDark }) {
   return (
-    <button className="small-button" onClick={handleClick}>
+    <button
+      className={isDark ? "small-button-dark" : "small-button"}
+      onClick={handleClick}
+    >
       {text}
     </button>
   );

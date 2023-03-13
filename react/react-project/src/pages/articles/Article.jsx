@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Container from "../../components/container/Container";
 
 import { data } from "../../data";
 
@@ -18,7 +19,7 @@ const Article = () => {
   }, []);
 
   return (
-    <div>
+    <Container>
       {article && (
         <>
           <h1>{article.title}</h1>
@@ -28,7 +29,7 @@ const Article = () => {
           <p>{article.desc}</p>
         </>
       )}
-    </div>
+    </Container>
   );
 };
 

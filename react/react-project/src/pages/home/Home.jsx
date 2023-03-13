@@ -3,7 +3,7 @@ import React from "react";
 import Background from "../../components/background/Background";
 import Container from "../../components/container/Container";
 
-const Home = () => {
+const Home = (props) => {
   return (
     <Container>
       <h1>hello</h1>

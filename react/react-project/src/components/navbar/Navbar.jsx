@@ -5,7 +5,7 @@ import logo from "../../assets/images/logo.svg";
 import Button from "../button/Button";
 import Container from "../container/Container";
 
-function Navbar() {
+function Navbar({ isDark, handleThemeChange }) {
   const img = "/userprofile.img";
   const userData = {
     firstName: "Hama",
@@ -28,6 +28,7 @@ function Navbar() {
   //   });
   // };
 
+  console.log(isDark);
   return (
     <nav className="navbar">
       <Container>
@@ -36,6 +37,14 @@ function Navbar() {
         </Link>
         <ul>
           <li>
+            <input
+              type="checkbox"
+              checked={isDark}
+              onChange={handleThemeChange}
+            />
+            <label>Dark</label>
+          </li>
+          <li>
             <NavLink to="/">Home</NavLink>
           </li>
           <li>
@@ -43,7 +52,7 @@ function Navbar() {
           </li>
           <li>
             <Link to="/login">
-              <Button text="Login" />
+              <Button text="Login" isDark={isDark} />
             </Link>
           </li>
         </ul>
