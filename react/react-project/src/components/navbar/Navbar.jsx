@@ -1,17 +1,28 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import logo from "../../assets/images/logo.svg";
 import Button from "../button/Button";
 import Container from "../container/Container";
+import { ThemeContext } from "../../App";
+import { changeTheme } from "../../themeSlice";
 
-function Navbar({ isDark, handleThemeChange }) {
+function Navbar({ handleThemeChange }) {
   const img = "/userprofile.img";
   const userData = {
     firstName: "Hama",
     lastName: "Saadwn",
     profile: `http://localhost3000${img}`,
   };
+  const isDark = useSelector((state) => state.theme.isDark);
+
+  const dispatch = useDispatch();
+
+  //const isDark = useContext(ThemeContext);
+
+  //console.log(isDark);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -28,7 +39,7 @@ function Navbar({ isDark, handleThemeChange }) {
   //   });
   // };
 
-  console.log(isDark);
+  //console.log(isDark);
   return (
     <nav className="navbar">
       <Container>
@@ -40,7 +51,9 @@ function Navbar({ isDark, handleThemeChange }) {
             <input
               type="checkbox"
               checked={isDark}
-              onChange={handleThemeChange}
+              onChange={() => {
+                dispatch(changeTheme());
+              }}
             />
             <label>Dark</label>
           </li>
