@@ -8,11 +8,10 @@ import ArticleCard from "../../components/cards/ArticleCard";
 import Button from "../../components/button/Button";
 import Container from "../../components/container/Container";
 
-const Articles = ({ isDark }) => {
+const Articles = () => {
   const [searchValue, setSearch] = useSearchParams({ searchValue: "ddd" });
   const text = searchValue.get("searchValue");
   const location = useLocation();
-  console.log(location);
 
   const [filteredData, setFilteredData] = useState();
 
@@ -55,17 +54,9 @@ const Articles = ({ isDark }) => {
 
   return (
     <Container>
-      <Button text="All" handleClick={handleAllData} isDark={isDark} />
-      <Button
-        text="News"
-        handleClick={() => handleFilter("news")}
-        isDark={isDark}
-      />
-      <Button
-        text="Blogs"
-        handleClick={() => handleFilter("blog")}
-        isDark={isDark}
-      />
+      <Button text="All" handleClick={handleAllData} />
+      <Button text="News" handleClick={() => handleFilter("news")} />
+      <Button text="Blogs" handleClick={() => handleFilter("blog")} />
       <input
         type="text"
         placeholder="Search"
