@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+
 import Container from "../../components/container/Container";
+import { login } from "../../redux/userSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -13,14 +18,23 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("submitting");
-    try {
-      await submitForm(formData);
-      setStatus("success");
-    } catch (err) {
-      setStatus("typing");
-      setError(err);
-    }
+    // setStatus("submitting");
+    // try {
+    //   await submitForm(formData);
+    //   setStatus("success");
+    // } catch (err) {
+    //   setStatus("typing");
+    //   setError(err);
+    // }
+    dispatch(login(formData));
+    /* 
+      {
+        type: "user/login", 
+      payload: {
+        email: ...,
+        password: ...
+      }}
+    */
   };
 
   const handleInput = (e) => {

@@ -5,9 +5,11 @@ import logo from "../../assets/images/logo.svg";
 import Button from "../button/Button";
 import Container from "../container/Container";
 import { changeTheme } from "../../redux/themeSlice";
+import { logout } from "../../redux/userSlice";
 
 function Navbar() {
   const isDark = useSelector((state) => state.theme.isDark);
+  const user = useSelector((state) => state.user.data);
   const dispatch = useDispatch();
 
   return (
@@ -32,9 +34,13 @@ function Navbar() {
             <NavLink to="/articles">Articles</NavLink>
           </li>
           <li>
-            <Link to="/login">
-              <Button text="Login" />
-            </Link>
+            {user.email ? (
+              <Button text="Logout" handleClick={() => dispatch(logout())} />
+            ) : (
+              <Link to="/login">
+                <Button text="Login" />
+              </Link>
+            )}
           </li>
         </ul>
       </Container>
