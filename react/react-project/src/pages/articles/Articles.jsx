@@ -7,15 +7,16 @@ import { data } from "../../data";
 import ArticleCard from "../../components/cards/ArticleCard";
 import Button from "../../components/button/Button";
 import Container from "../../components/container/Container";
+import { useGetAllCountriesQuery } from "../../redux/services/countriesApi";
 
 const Articles = () => {
   const [searchValue, setSearch] = useSearchParams({ searchValue: "ddd" });
   const text = searchValue.get("searchValue");
-  const location = useLocation();
+  // const location = useLocation();
 
   const [filteredData, setFilteredData] = useState();
 
-  const [fetchData, setFetchData] = useState([]);
+  // const [fetchData, setFetchData] = useState([]);
 
   const cachedData = useMemo(() => {
     return (
@@ -38,15 +39,18 @@ const Articles = () => {
     setFilteredData(data);
   };
 
-  const requestData = async () => {
-    const res = await fetch("https://restcountries.com/v3.1/all");
-    const countries = await res.json();
-    setFetchData(countries);
-  };
+  const { data, isLoading, error } = useGetAllCountriesQuery();
+  console.log(data);
 
-  useEffect(() => {
-    requestData();
-  }, []);
+  // const requestData = async () => {
+  //   const res = await fetch("https://restcountries.com/v3.1/all");
+  //   const countries = await res.json();
+  //   setFetchData(countries);
+  // };
+
+  // useEffect(() => {
+  //   requestData();
+  // }, []);
 
   // useEffect(() => {
   //   setFilteredData(filteredData.map((fd) => ({ ...fd, date: Date.now() })));
@@ -64,10 +68,19 @@ const Articles = () => {
         onChange={(e) => setSearch({ searchValue: e.target.value })}
       />
       <section className="articles">
-        {filteredData &&
+        {isLoading ? (
+          <h1>Loading...</h1>
+        ) : error ? (
+          <h1>An error happened</h1>
+        ) : data ? (
+          data.map((d) => {
+            return <ArticleCard {...d} key={d.ccn3} />;
+          })
+        ) : null}
+        {/* {filteredData &&
           cachedData.map((article) => {
             return <ArticleCard {...article} key={article.id} />;
-          })}
+          })} */}
       </section>
     </Container>
   );
