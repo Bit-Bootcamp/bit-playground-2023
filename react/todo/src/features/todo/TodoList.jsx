@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
+import { useGetTodosQuery } from "../../app/services/todos";
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
@@ -23,6 +24,8 @@ const TodoList = () => {
       )
     );
   };
+
+  const { data } = useGetTodosQuery();
 
   return (
     <div className="max-w-md mx-auto">
