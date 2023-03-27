@@ -1,31 +1,30 @@
 import { useState } from "react";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { useGetTodosQuery } from "../../app/services/todos";
+import { useGetTodosQuery } from "../../app/api/api";
 
 const TodoList = () => {
-  const [todos, setTodos] = useState([]);
+  const { data: todos } = useGetTodosQuery();
+  // const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!newTodo.trim()) return;
-    setTodos([...todos, { text: newTodo.trim(), completed: false }]);
+    // setTodos([...todos, { text: newTodo.trim(), completed: false }]);
     setNewTodo("");
   };
 
   const handleDelete = (index) => {
-    setTodos((prevTodos) => prevTodos.filter((_, i) => i !== index));
+    // setTodos((prevTodos) => prevTodos.filter((_, i) => i !== index));
   };
 
   const handleToggleCompletion = (index) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((todo, i) =>
-        i === index ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
+    // setTodos((prevTodos) =>
+    //   prevTodos.map((todo, i) =>
+    //     i === index ? { ...todo, completed: !todo.completed } : todo
+    //   )
+    // );
   };
-
-  const { data } = useGetTodosQuery();
 
   return (
     <div className="max-w-md mx-auto">
@@ -52,7 +51,7 @@ const TodoList = () => {
         </div>
       </form>
       <ul className="border border-gray-300 rounded-md divide-y divide-gray-300">
-        {todos.map((todo, index) => (
+        {todos?.map((todo, index) => (
           <li
             key={index}
             className={`flex items-center py-4 px-6 ${
