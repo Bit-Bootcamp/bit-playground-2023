@@ -1,24 +1,35 @@
 import { useState } from "react";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { useGetTodosQuery } from "../../app/api/api";
+import {
+  useGetTodosQuery,
+  useAddTodoMutation,
+  useCompleteTodoMutation,
+  useDeleteTodoMutation,
+} from "../../app/api/todos";
 
 const TodoList = () => {
   const { data: todos } = useGetTodosQuery();
+  const [addTodo, { isLoading, isError }] = useAddTodoMutation();
+  const [completeTodo] = useCompleteTodoMutation();
+  const [deleteTodo] = useDeleteTodoMutation();
   // const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!newTodo.trim()) return;
+    addTodo({ text: newTodo.trim(), completed: false });
     // setTodos([...todos, { text: newTodo.trim(), completed: false }]);
     setNewTodo("");
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = (todo) => {
+    deleteTodo(todo);
     // setTodos((prevTodos) => prevTodos.filter((_, i) => i !== index));
   };
 
-  const handleToggleCompletion = (index) => {
+  const handleToggleCompletion = (todo) => {
+    completeTodo({ ...todo, completed: !todo.completed });
     // setTodos((prevTodos) =>
     //   prevTodos.map((todo, i) =>
     //     i === index ? { ...todo, completed: !todo.completed } : todo
@@ -60,7 +71,7 @@ const TodoList = () => {
           >
             <button
               type="button"
-              onClick={() => handleToggleCompletion(index)}
+              onClick={() => handleToggleCompletion(todo)}
               className="text-gray-500 hover:text-green-500 transition-colors duration-150"
             >
               {todo.completed ? (
@@ -72,7 +83,7 @@ const TodoList = () => {
             <span className="flex-1 ml-3">{todo.text}</span>
             <button
               type="button"
-              onClick={() => handleDelete(index)}
+              onClick={() => handleDelete(todo)}
               className="text-gray-500 hover:text-red-500 transition-colors duration-150"
             >
               <XCircleIcon className="h-5 w-5" />

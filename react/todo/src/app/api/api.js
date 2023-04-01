@@ -2,10 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const api = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000/todos" }),
-  endpoints: (builder) => ({
-    getTodos: builder.query({ query: () => "/" }),
-  }),
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
+  tagTypes: ["Todo"],
+  endpoints: () => ({}),
 });
-
-export const { useGetTodosQuery } = api;

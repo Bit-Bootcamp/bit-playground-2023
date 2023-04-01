@@ -1,3 +1,22 @@
 {
-  "todos": [{ "id": 1, "text": "test", "completed": false }]
+  "todos": [
+    {
+      "id": 1,
+      "text": "test",
+      "completed": false
+    },
+    {
+      "text": "222",
+      "completed": true,
+      "id": 2
+    },
+    {
+      "text": "test",
+      "completed": true,
+      "id": 7
+    }
+  ],
+  "products": [],
+  "cart": [],
+  "business": []
 }
