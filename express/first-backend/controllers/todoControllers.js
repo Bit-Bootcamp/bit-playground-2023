@@ -5,6 +5,11 @@ const __dirname = path.resolve();
 const data = JSON.parse(fs.readFileSync(`${__dirname}/data/db.json`));
 
 export const getAllTodo = (req, res) => {
+  const search = req.query.search;
+
+  if (search) {
+    res.json({ status: "success", data: `successful search: ${search}` });
+  }
   res.json({ status: "success", data: data.todos });
 };
 

@@ -3,13 +3,20 @@ import morgan from "morgan";
 
 import todoRoutes from "./routers/todoRoutes.js";
 import rootRoutes from "./routers/rootRoutes.js";
+import dotenv from "dotenv";
+dotenv.config();
+
 // import rootController from "./controllers/rootControllers.js";
 // const express = require("express");
 
 const app = express();
 
 app.use(express.json());
-app.use(morgan("dev"));
+
+console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"));
+}
 
 // app.use((req, res, next) => {
 //   if (req.headers.authentication === "hama") {
