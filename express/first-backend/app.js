@@ -1,10 +1,13 @@
 import express from "express";
 import morgan from "morgan";
+import { connectDb } from "./config/db.js";
 
 import todoRoutes from "./routers/todoRoutes.js";
 import rootRoutes from "./routers/rootRoutes.js";
 import dotenv from "dotenv";
 dotenv.config();
+
+connectDb();
 
 // import rootController from "./controllers/rootControllers.js";
 // const express = require("express");
