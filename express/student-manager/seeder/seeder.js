@@ -3,7 +3,9 @@ import fs from "fs";
 import path from "path";
 
 import dotenv from "dotenv";
-import Students from "../models/students.model.js";
+
+import Students from "../models/students.models.js";
+
 dotenv.config();
 
 connectDb();
@@ -11,26 +13,27 @@ connectDb();
 const __dirname = path.resolve();
 
 const data = JSON.parse(
-  fs.readFileSync(path.join(__dirname, `/seeder/data/${process.argv[3]}`))
+  fs.readFileSync(path.join(__dirname, `/seeder/data/students.json`))
 );
 
 const importData = async () => {
   try {
     await Students.create(data);
     console.log("import was successful");
-    process.exit();
   } catch (err) {
     console.log(err);
   }
+  process.exit();
 };
+
 const deleteData = async () => {
   try {
     await Students.deleteMany();
     console.log("delete was successful");
-    process.exit();
   } catch (err) {
     console.log(err);
   }
+  process.exit();
 };
 
 if (process.argv[2] === "--import") {
