@@ -11,7 +11,35 @@ export const getStudents = async (req, res) => {
     let query = JSON.stringify(req.query);
     query = query.replace(/\b(gte|gt|lt|lte)\b/g, (match) => `$${match}`);
 
-    const students = await Student.find(JSON.parse(query));
+    let queryObj = JSON.parse(query);
+
+    const excluteQuery = ["sort", "limit", "page", "fields", "search"];
+
+    excluteQuery.forEach((key) => {
+      delete queryObj[key];
+    });
+
+    if (req.query.search) {
+      queryObj.fullName = new RegExp(req.query.search, "i");
+    }
+
+    const getQuery = Student.find(queryObj);
+
+    if (req.query.sort) {
+      getQuery.sort(req.query.sort);
+    }
+
+    if (req.query.fields) {
+      getQuery.select(req.query.fields);
+    }
+
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 10;
+    const skip = limit * (page - 1);
+
+    getQuery.skip(skip).limit(limit);
+
+    const students = await getQuery;
 
     res.json({ status: "success", results: students.length, data: students });
   } catch (err) {
