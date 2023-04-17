@@ -3,6 +3,7 @@ import morgan from "morgan";
 import { connectDb } from "./config/db.js";
 
 import studentsRoutes from "./routes/students.routes.js";
+import classesRoutes from "./routes/classes.routes.js";
 
 import dotenv from "dotenv";
 import { trimQueryMiddleware } from "./middlewares/trimQuery.middleware.js";
@@ -21,5 +22,6 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use("/api/students", studentsRoutes);
+app.use("/api/classes", classesRoutes);
 
 export default app;

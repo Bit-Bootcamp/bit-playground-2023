@@ -27,19 +27,12 @@ const studentsSchema = new mongoose.Schema({
     street: String,
     houseNumber: Number,
   },
-  contact: Map,
   gender: { type: String, enum: ["male", "female"] },
-  birthYear: {
-    type: Number,
-    validate: {
-      validator: function (v) {
-        const currentYear = parseInt(new Date().getFullYear().toString());
-        return currentYear > v;
-      },
-      message: (props) => `${props.value} is not a valid year!`,
-    },
-  },
-  grade: { type: Number },
+  phoneNumber: { type: String },
+  stage: { type: Number },
+
+  classes: [{ type: mongoose.Types.ObjectId, ref: "class" }],
+  marks: [{ type: mongoose.Types.ObjectId, ref: "mark" }],
 });
 
 const student = mongoose.model("student", studentsSchema);
