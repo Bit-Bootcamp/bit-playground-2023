@@ -23,22 +23,40 @@ export const getClasses = async (req, res) => {
 
 export const registerClass = async (req, res) => {
   try {
+    const studentsArr = req.body.students;
+    console.log(studentsArr);
+
     const classes = await Classes.findByIdAndUpdate(
       req.params.classId,
       {
-        $push: { students: req.body.studentId },
+        $push: { students: studentsArr },
       },
       {
         new: true,
       }
     );
 
-    await Student.findByIdAndUpdate(req.body.studentId, {
-      $push: { classes: req.params.classId },
-    });
+    // la 7alateka 1 student id
+    // await Student.findByIdAndUpdate(req.body.studentId, {
+    //   $push: { classes: req.params.classId },
+    // });
+
+    // let students = [];
+
+    for (let student of studentsArr) {
+      const st = await Student.findByIdAndUpdate(
+        student,
+        {
+          $push: { classes: req.params.classId },
+        }
+        // { new: true }
+      );
+      // students.push(st);
+    }
 
     res.json({ status: "success", data: classes });
   } catch (err) {
+    console.log(err);
     res.status(400).json({ status: "error", data: err });
   }
 };

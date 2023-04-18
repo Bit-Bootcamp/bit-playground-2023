@@ -4,6 +4,8 @@ import { connectDb } from "./config/db.js";
 
 import studentsRoutes from "./routes/students.routes.js";
 import classesRoutes from "./routes/classes.routes.js";
+import marksRoutes from "./routes/marks.routes.js";
+import userRoutes from "./routes/users.routes.js";
 
 import dotenv from "dotenv";
 import { trimQueryMiddleware } from "./middlewares/trimQuery.middleware.js";
@@ -23,5 +25,7 @@ if (process.env.NODE_ENV === "development") {
 
 app.use("/api/students", studentsRoutes);
 app.use("/api/classes", classesRoutes);
+app.use("/api/marks", marksRoutes);
+app.use("/api/users", userRoutes);
 
 export default app;

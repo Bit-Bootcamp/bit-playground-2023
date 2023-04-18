@@ -1,4 +1,5 @@
 import Student from "../models/students.models.js";
+import Users from "../models/user.model.js";
 
 export const getStudents = async (req, res) => {
   try {
@@ -50,6 +51,21 @@ export const getStudents = async (req, res) => {
 export const addStudent = async (req, res) => {
   try {
     const student = await Student.create(req.body);
+
+    await Users.findByIdAndUpdate(req.body.userId, {
+      $set: { studentId: student._id },
+    });
+
+    res.json({ status: "success", data: student });
+  } catch (err) {
+    res.status(400).json({ status: "error", data: err });
+  }
+};
+
+export const getStudentById = async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+
     res.json({ status: "success", data: student });
   } catch (err) {
     res.status(400).json({ status: "error", data: err });

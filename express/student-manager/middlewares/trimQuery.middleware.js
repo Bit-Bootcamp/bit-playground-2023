@@ -13,6 +13,5 @@ export const trimQueryMiddleware = (req, res, next) => {
       }
     }
   }
-  console.log(req.query);
   next();
 };
