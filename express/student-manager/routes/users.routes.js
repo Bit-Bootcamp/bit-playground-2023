@@ -1,16 +1,13 @@
 import { Router } from "express";
-import { getUser, signup } from "../controllers/user.controller.js";
-import passport from "passport";
-import { loginMiddlware } from "../middlewares/auth.middleware.js";
+import { getUser, login, signup } from "../controllers/user.controller.js";
+import { signUpMiddleware } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
 router.route("/").get(getUser);
 // .post(createUser);
-router
-  .route("/signup")
-  .post(passport.authenticate("signup", { session: false }), signup);
+router.route("/signup").post(signUpMiddleware, signup);
 
-router.post("/login", loginMiddlware);
+router.post("/login", login);
 
 export default router;
