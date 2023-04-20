@@ -1,7 +1,12 @@
 import passport from "passport";
 import { Strategy as localStrategy } from "passport-local";
+import { Strategy as JWTStrategy, ExtractJwt } from "passport-jwt";
+import dotenv from "dotenv";
 
 import Users from "../models/user.model.js";
+
+dotenv.config();
+
 // bcrypt passport jsonwebtoken passport-jwt passport-local
 passport.use(
   "signup",
@@ -51,6 +56,22 @@ passport.use(
       } catch (err) {
         console.log(err);
         return done(err);
+      }
+    }
+  )
+);
+
+passport.use(
+  new JWTStrategy(
+    {
+      secretOrKey: process.env.JWT_SECRET,
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    },
+    async (token, done) => {
+      try {
+        return done(null, token.user);
+      } catch (error) {
+        done(error);
       }
     }
   )

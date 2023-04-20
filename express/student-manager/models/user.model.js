@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
     match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
   },
   password: { type: String, required: true, minLength: 8 },
+  role: { type: String, default: "student" },
 
   studentId: { type: mongoose.Types.ObjectId, ref: "student" },
 });

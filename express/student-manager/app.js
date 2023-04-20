@@ -10,6 +10,7 @@ import "./strategy/auth.js";
 
 import dotenv from "dotenv";
 import { trimQueryMiddleware } from "./middlewares/trimQuery.middleware.js";
+import { checkRole, protect } from "./middlewares/auth.middleware.js";
 dotenv.config();
 
 connectDb();
@@ -24,9 +25,9 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
+app.use("/api/users", userRoutes);
 app.use("/api/students", studentsRoutes);
 app.use("/api/classes", classesRoutes);
 app.use("/api/marks", marksRoutes);
-app.use("/api/users", userRoutes);
 
 export default app;

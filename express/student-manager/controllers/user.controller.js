@@ -24,9 +24,19 @@ export const signup = async (req, res) => {
 
 export const getUser = async (req, res) => {
   try {
-    const classes = await Users.find().populate("studentId", "fullName");
+    const users = await Users.find().populate("studentId", "fullName");
 
-    res.json({ status: "success", results: classes.length, data: classes });
+    res.json({ status: "success", results: users.length, data: users });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ status: "error", data: err });
+  }
+};
+
+export const getCurrentUser = async (req, res) => {
+  try {
+    const user = await Users.findById(req.user.sub);
+    res.json({ status: "success", data: { user } });
   } catch (err) {
     console.log(err);
     res.status(400).json({ status: "error", data: err });
@@ -42,7 +52,9 @@ export const login = async (req, res, next) => {
       }
 
       req.login(user, { session: false }, async (error) => {
-        if (error) return next(error);
+        if (error) {
+          return next(error);
+        }
         const body = { sub: user._id, email: user.email };
         const token = jwt.sign({ user: body }, process.env.JWT_SECRET);
 
