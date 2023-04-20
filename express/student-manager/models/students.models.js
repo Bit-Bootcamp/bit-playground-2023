@@ -7,12 +7,6 @@ const studentsSchema = new mongoose.Schema({
     lowercase: true,
     unique: false,
   },
-  email: {
-    type: String,
-    unique: true,
-    required: true,
-    // match: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-  },
   isActive: { type: Boolean, default: true },
   age: { type: Number, required: true, min: 7 },
   startDate: { type: Date }, //unix time "1234535657"

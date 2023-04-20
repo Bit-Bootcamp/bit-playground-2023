@@ -6,6 +6,7 @@ import studentsRoutes from "./routes/students.routes.js";
 import classesRoutes from "./routes/classes.routes.js";
 import marksRoutes from "./routes/marks.routes.js";
 import userRoutes from "./routes/users.routes.js";
+import "./strategy/auth.js";
 
 import dotenv from "dotenv";
 import { trimQueryMiddleware } from "./middlewares/trimQuery.middleware.js";

@@ -2,12 +2,23 @@ import Classes from "../models/classes.model.js";
 import Student from "../models/students.models.js";
 import Users from "../models/user.model.js";
 
-export const createUser = async (req, res) => {
+// export const createUser = async (req, res) => {
+//   try {
+//     const user = await Users.create(req.body);
+//     res.json({ status: "success", data: user });
+//   } catch (err) {
+//     res.status(400).json({ status: "error", data: err });
+//   }
+// };
+
+export const signup = async (req, res) => {
   try {
-    const user = await Users.create(req.body);
-    res.json({ status: "success", data: user });
+    res.json({
+      status: "success",
+      data: req.user,
+    });
   } catch (err) {
-    res.status(400).json({ status: "error", data: err });
+    res.status(500).json({ status: "error", data: err });
   }
 };
 
