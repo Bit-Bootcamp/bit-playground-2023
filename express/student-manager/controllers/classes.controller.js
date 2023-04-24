@@ -24,7 +24,6 @@ export const getClasses = async (req, res) => {
 export const registerClass = async (req, res) => {
   try {
     const studentsArr = req.body.students;
-    console.log(studentsArr);
 
     const classes = await Classes.findByIdAndUpdate(
       req.params.classId,

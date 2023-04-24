@@ -1,5 +1,7 @@
+import CustomError from "../CustomError.js";
 import Student from "../models/students.models.js";
 import Users from "../models/user.model.js";
+import { tryCatch } from "../utils/tryCatch.js";
 
 export const getStudents = async (req, res) => {
   try {
@@ -48,26 +50,26 @@ export const getStudents = async (req, res) => {
   }
 };
 
-export const addStudent = async (req, res) => {
-  try {
-    const student = await Student.create(req.body);
+export const addStudent = tryCatch(async (req, res) => {
+  const student = await Student.create(req.body);
 
-    await Users.findByIdAndUpdate(req.body.userId, {
-      $set: { studentId: student._id },
-    });
+  await Users.findByIdAndUpdate(req.body.userId, {
+    $set: { studentId: student._id },
+  });
 
-    res.json({ status: "success", data: student });
-  } catch (err) {
-    res.status(400).json({ status: "error", data: err });
-  }
-};
+  res.json({ status: "success", data: student });
+});
 
-export const getStudentById = async (req, res) => {
+export const getStudentById = async (req, res, next) => {
   try {
     const student = await Student.findById(req.params.id);
 
+    if (!student) {
+      throw new CustomError("student not found", 404, 4104);
+    }
+
     res.json({ status: "success", data: student });
   } catch (err) {
-    res.status(400).json({ status: "error", data: err });
+    next(err);
   }
 };
