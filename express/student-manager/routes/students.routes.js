@@ -30,14 +30,124 @@ import {
  *          format: date
  *          description: the date the student started studying
  *      example:
- *        _id: 64367315629e7cd7ce99836f
- *        fullName: danita chalke
- *        isActive: false
+ *        fullName: testtt
+ *        age: 25
  *
  */
 const router = Router();
 
+/**
+ * @swagger
+ * tags:
+ *  name: students
+ *  description: any route related to students
+ * /api/students:
+ *  post:
+ *    summary: Create a new student
+ *    tags: ["students"]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/students'
+ *    responses:
+ *      200:
+ *        description: The created student.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  $ref: '#/components/schemas/students'
+ *      500:
+ *        description: SOme error
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  properties:
+ *                    errorCode:
+ *                      type: number
+ *                    message:
+ *                      type: string
+ *
+ *  get:
+ *    summary: get students
+ *    tags: ["students"]
+ *    parameters:
+ *      - in: query
+ *        name: search
+ *        schema:
+ *          type: string
+ *        required: false
+ *        description: search by fullname
+ *      - in: query
+ *        name: age
+ *        schema:
+ *          type: number
+ *        required: false
+ *        description: the age to filter by
+ *      - in: query
+ *        name: age[lte]
+ *        schema:
+ *          type: number
+ *        required: false
+ *        description: the age to filter by
+ *    responses:
+ *      200:
+ *        description: The created student.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: string
+ *                data:
+ *                  type: array
+ *                  items:
+ *                    $ref: '#/components/schemas/students'
+ *
+ */
 router.route("/").post(addStudent).get(getStudents);
+
+/**
+ * @swagger
+ * /api/students/{id}:
+ *  get:
+ *    summary: get students
+ *    tags: ["students"]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: ObjectId
+ *        required: true
+ *        description: the id of the student
+ *    responses:
+ *      200:
+ *        description: The created student.
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                status:
+ *                  type: string
+ *                data:
+ *                  type: object
+ *                  $ref: '#/components/schemas/students'
+ */
 router.route("/:id").get(getStudentById);
 
 export default router;
