@@ -4,6 +4,7 @@ import {
   getStudentById,
   getStudents,
 } from "../controllers/students.controller.js";
+import { uploadMulti, uploadSingle } from "../middlewares/multer.middleware.js";
 
 /**
  * @swagger
@@ -121,6 +122,15 @@ const router = Router();
  */
 router.route("/").post(addStudent).get(getStudents);
 
+router.route("/upload").post(uploadSingle, (req, res) => {
+  console.log(req.file);
+  res.send(req.file.filename);
+});
+
+router.route("/upload-multi").post(uploadMulti, (req, res) => {
+  console.log(req.files);
+  res.send("success");
+});
 /**
  * @swagger
  * /api/students/{id}:

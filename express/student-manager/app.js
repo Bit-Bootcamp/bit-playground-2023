@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import { connectDb } from "./config/db.js";
@@ -36,5 +37,8 @@ app.use("/api/classes", classesRoutes);
 app.use("/api/marks", marksRoutes);
 
 app.use(errorHandler);
+
+const __dirname = path.resolve();
+app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 export default app;
