@@ -3,6 +3,7 @@ import {
   addStudent,
   getStudentById,
   getStudents,
+  getStudentsStats
 } from "../controllers/students.controller.js";
 import { uploadMulti, uploadSingle } from "../middlewares/multer.middleware.js";
 

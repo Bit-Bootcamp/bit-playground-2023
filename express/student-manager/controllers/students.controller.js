@@ -73,3 +73,30 @@ export const getStudentById = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getStudentsStats = tryCatch(async (req, res) => {
+  const student = await Student.aggregate([
+    {
+      $match: {
+        age: { $gte: 10 },
+      },
+    },
+    {
+      $group: {
+        _id: "$age",
+        averageGrade: {
+          $avg: "$grade",
+        },
+        minGrade: {
+          $min: "$grade",
+        },
+        maxGrade: {
+          $max: "$grade",
+        },
+        sumGrade: {
+          $max: "$grade",
+        },
+      },
+    },
+  ]);
+});
