@@ -73,3 +73,43 @@ export const getStudentById = async (req, res, next) => {
     next(err);
   }
 };
+
+export const getStudentStats = async (req, res, next) => {
+  try {
+    const student = await Student.aggregate([
+      {
+        $match: {
+          age: { $gte: 10 },
+        },
+      },
+      {
+        $group: {
+          _id: "$age",
+          averageGrade: {
+            $avg: "$grade",
+          },
+          minGrade: {
+            $min: "$grade",
+          },
+          maxGrade: {
+            $max: "$grade",
+          },
+          sumGrade: {
+            $sum: "$grade",
+          },
+          students: {
+            $count: {},
+          },
+        },
+      },
+    ]);
+
+    if (!student) {
+      throw new CustomError("student not found", 404, 4104);
+    }
+
+    res.json({ status: "success", data: student });
+  } catch (err) {
+    next(err);
+  }
+};

@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   addStudent,
   getStudentById,
+  getStudentStats,
   getStudents,
 } from "../controllers/students.controller.js";
 import {
@@ -126,6 +127,8 @@ const router = Router();
  *
  */
 router.route("/").post(addStudent).get(getStudents);
+
+router.route("/student-stats").get(getStudentStats);
 
 router.route("/upload").post(uploadSingle, resizeImage, (req, res) => {
   res.send(`students/${req.file.filename}`);

@@ -6,7 +6,12 @@ import Student from "../models/students.models.js";
 export const getMarks = async (req, res) => {
   try {
     const marks = await Marks.find()
-      .populate("studentId", "fullName grade")
+      .populate({
+        path: "studentId",
+        populate: {
+          path: "userId",
+        },
+      })
       .populate("classId", "title");
 
     res.json({ status: "success", results: marks.length, data: marks });

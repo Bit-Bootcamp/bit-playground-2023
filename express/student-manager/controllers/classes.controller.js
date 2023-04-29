@@ -12,7 +12,10 @@ export const createClass = async (req, res) => {
 
 export const getClasses = async (req, res) => {
   try {
-    const classes = await Classes.find().populate("students");
+    const classes = await Classes.find().populate({
+      path: "students",
+      match: { isActive: "hama saadwn" },
+    });
 
     res.json({ status: "success", results: classes.length, data: classes });
   } catch (err) {
