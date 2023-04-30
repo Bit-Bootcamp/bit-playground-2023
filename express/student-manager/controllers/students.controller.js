@@ -51,6 +51,7 @@ export const getStudents = async (req, res) => {
 };
 
 export const addStudent = tryCatch(async (req, res) => {
+  req.body.user = req.user._id;
   const student = await Student.create(req.body);
 
   await Users.findByIdAndUpdate(req.body.userId, {

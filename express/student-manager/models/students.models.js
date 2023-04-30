@@ -10,11 +10,10 @@ const studentsSchema = new mongoose.Schema(
     },
     isActive: { type: Boolean, default: true },
     age: { type: Number, required: true, min: 7 },
-    startDate: { type: Date }, //unix time "1234535657"
+    startDate: { type: Date, default: Date.now() }, //unix time "1234535657"
     image: {
       type: String,
-      default:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTricwoZPkUPa0Axlr3RXO5X9hy6UmUe6WWzKvq0IYzYQ&s",
+      required: true,
     },
     documents: [String],
     address: {
@@ -22,9 +21,9 @@ const studentsSchema = new mongoose.Schema(
       street: String,
       houseNumber: Number,
     },
-    gender: { type: String, enum: ["male", "female"] },
-    phoneNumber: { type: String },
-    stage: { type: Number },
+    gender: { type: String, enum: ["male", "female"], required: true },
+    phoneNumber: { type: String, required: true },
+    stage: { type: Number, default: 1 },
 
     classes: [{ type: mongoose.Types.ObjectId, ref: "class" }],
     marks: [{ type: mongoose.Types.ObjectId, ref: "mark" }],

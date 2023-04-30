@@ -32,7 +32,7 @@ export const getUser = tryCatch(async (req, res) => {
 });
 
 export const getCurrentUser = tryCatch(async (req, res) => {
-  const user = await Users.findById(req.user.sub);
+  const user = await Users.findById(req.user.sub).populate(studentId);
 
   res.json({ status: "success", data: { user } });
 });
