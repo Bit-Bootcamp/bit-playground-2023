@@ -6,6 +6,7 @@ import Register from "./features/register/Register";
 import { useGetCurrentUserQuery } from "./api/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "./api/globalSlices/user.slics";
+import Profile from "./features/profile/Profile";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,6 +28,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
+        <Route path="/profile" element={<Profile />} />
       </Routes>
       <h1 className="text-3xl font-bold underline">Hello world!</h1>
     </>
