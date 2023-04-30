@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
+import cors from "cors";
 import { connectDb } from "./config/db.js";
 
 import studentsRoutes from "./routes/students.routes.js";
@@ -23,6 +24,7 @@ const app = express();
 
 app.use(express.json());
 app.use(trimQueryMiddleware);
+app.use(cors());
 
 console.log(process.env.NODE_ENV);
 if (process.env.NODE_ENV === "development") {

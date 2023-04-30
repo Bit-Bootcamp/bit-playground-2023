@@ -1,9 +1,11 @@
 import { AtSymbolIcon, LockClosedIcon } from "@heroicons/react/24/outline";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useLoginMutation } from "../../api/auth";
 
 const Login = () => {
   const [formData, setFormData] = useState({});
+  const [login, { data, isError }] = useLoginMutation();
 
   const handleInput = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -11,7 +13,16 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    login(formData);
   };
+
+  useEffect(() => {
+    if (!isError || data) {
+      localStorage.setItem("access_token", data?.token);
+    }
+  }, [data]);
+
   return (
     <>
       <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">

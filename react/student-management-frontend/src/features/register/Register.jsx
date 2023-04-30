@@ -1,15 +1,24 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   AtSymbolIcon,
   UserCircleIcon,
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import Error from "../common/error/error";
+import { useSignupMutation } from "../../api/auth";
 
 const Register = () => {
-  const [formData, setFormData] = useState({});
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    username: "",
+  });
   const [errors, setErrors] = useState([]);
+
+  const [signUp, { data: response, isError }] = useSignupMutation();
 
   const handleInput = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,9 +27,20 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (formData.confirmPassword !== formData.password)
+    if (formData.confirmPassword !== formData.password) {
       setErrors([...errors, "passwords didn't match"]);
+      return;
+    }
+
+    signUp(formData);
   };
+
+  useEffect(() => {
+    if (!isError) {
+      localStorage.setItem("access_token", response?.data.token);
+      // navigate("/");
+    }
+  }, [response]);
 
   return (
     <>
@@ -54,7 +74,7 @@ const Register = () => {
                   type="email"
                   className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                   placeholder="Enter email"
-                  required="true"
+                  required={true}
                   name="email"
                   value={formData.email}
                   onChange={handleInput}
@@ -76,10 +96,11 @@ const Register = () => {
                   type="text"
                   className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                   placeholder="Enter username"
-                  required="true"
+                  required={true}
                   name="username"
                   value={formData.username}
                   onChange={handleInput}
+                  minLength={8}
                 />
 
                 <span className="absolute inset-y-0 end-0 grid place-content-center px-4">
@@ -98,8 +119,9 @@ const Register = () => {
                   type="password"
                   className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                   placeholder="Enter password"
-                  required="true"
+                  required={true}
                   name="password"
+                  minLength={8}
                   value={formData.password}
                   onChange={handleInput}
                 />
@@ -120,7 +142,7 @@ const Register = () => {
                   type="password"
                   className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm"
                   placeholder="re write your password"
-                  required="true"
+                  required={true}
                   name="confirmPassword"
                   value={formData.confirmPassword}
                   onChange={handleInput}
