@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import {
   AtSymbolIcon,
   UserCircleIcon,
@@ -7,9 +7,11 @@ import {
 } from "@heroicons/react/24/outline";
 import Error from "../common/error/error";
 import { useSignupMutation } from "../../api/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "../../api/globalSlices/user.slics";
 
 const Register = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -17,6 +19,8 @@ const Register = () => {
     username: "",
   });
   const [errors, setErrors] = useState([]);
+
+  const { user } = useSelector((state) => state.user);
 
   const [signUp, { data: response, isError }] = useSignupMutation();
 
@@ -36,11 +40,13 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (!isError) {
+    if (!isError && response) {
       localStorage.setItem("access_token", response?.data.token);
-      // navigate("/");
+      dispatch(addUser(response.data.user));
     }
   }, [response]);
+
+  if (user) return <Navigate to="/" replace />;
 
   return (
     <>

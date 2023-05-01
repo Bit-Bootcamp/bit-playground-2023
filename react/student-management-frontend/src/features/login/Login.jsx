@@ -1,11 +1,21 @@
 import { AtSymbolIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useLoginMutation } from "../../api/auth";
+import { Link, Navigate } from "react-router-dom";
+import { useGetCurrentUserQuery, useLoginMutation } from "../../api/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "../../api/globalSlices/user.slics";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
-  const [login, { data, isError }] = useLoginMutation();
+  const [token, setToken] = useState();
+  const { user } = useSelector((state) => state.user);
+  const [login, { data: loginData, isError: loginDataIsError }] =
+    useLoginMutation();
+  const { data: userData, isError: userDataIsError } = useGetCurrentUserQuery(
+    token,
+    { skip: !token }
+  );
 
   const handleInput = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -16,12 +26,20 @@ const Login = () => {
 
     login(formData);
   };
-
   useEffect(() => {
-    if (!isError || data) {
-      localStorage.setItem("access_token", data?.token);
+    if (!loginDataIsError && loginData) {
+      localStorage.setItem("access_token", loginData?.token);
+      setToken(loginData?.token);
     }
-  }, [data]);
+  }, [loginData]);
+  useEffect(() => {
+    console.log("test");
+    if (!userDataIsError && userData) {
+      dispatch(addUser(userData.data.user));
+    }
+  }, [userData]);
+
+  if (user) return <Navigate to="/" replace />;
 
   return (
     <>

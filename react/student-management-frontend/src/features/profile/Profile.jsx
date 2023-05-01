@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
+import { useUploadMutation } from "../../api/students";
 
 const Profile = () => {
   const [formData, setFormData] = useState({});
+  const [upload, { data: uploadResponse }] = useUploadMutation();
 
   const handleInput = (e) => {
     if (e.target.name.includes(".")) {
@@ -20,6 +22,17 @@ const Profile = () => {
 
     console.log(formData);
   };
+
+  const handleUpload = (e) => {
+    upload(e.target.files);
+  };
+
+  useEffect(() => {
+    if (uploadResponse?.path)
+      setFormData({ ...formData, image: uploadResponse.path });
+    else if (uploadResponse?.paths)
+      setFormData({ ...formData, documents: uploadResponse.paths });
+  }, [uploadResponse]);
 
   return (
     <>
@@ -172,6 +185,7 @@ const Profile = () => {
                 id="file_input"
                 type="file"
                 accept="image/*"
+                onChange={handleUpload}
               />
             </div>
 
@@ -188,6 +202,7 @@ const Profile = () => {
                 type="file"
                 accept="image/*"
                 multiple={true}
+                onChange={handleUpload}
               />
             </div>
 

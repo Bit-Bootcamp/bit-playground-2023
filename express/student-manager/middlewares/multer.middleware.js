@@ -34,7 +34,10 @@ export const uploadSingle = upload.single("photo");
 export const uploadMulti = upload.array("photos", 5);
 
 export const resizeImage = async (req, res, next) => {
-  if (!req.file) next();
+  if (!req.file) {
+    next();
+    return;
+  }
 
   req.file.filename = `student-${Date.now()}-${Math.round(
     Math.random() * 1000
@@ -50,19 +53,23 @@ export const resizeImage = async (req, res, next) => {
 };
 
 export const resizeImages = async (req, res, next) => {
-  if (!req.files) next();
+  if (!req.files) {
+    next();
+    return;
+  }
 
   req.body.files = [];
 
   for (let i = 0; i < req.files.length; i++) {
-    req.body.files.push(
-      `student-${Date.now()}-${Math.round(Math.random() * 1000)}-${i}.jpeg`
-    );
+    const fileName = `student-${Date.now()}-${Math.round(
+      Math.random() * 1000
+    )}-${i}.jpeg`;
+    req.body.files.push(`students/${fileName}`);
     await sharp(req.files[i].buffer)
       .resize(1000)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
-      .toFile(`uploads/students/${req.body.files[i]}`);
+      .toFile(`uploads/students/${fileName}`);
   }
 
   next();

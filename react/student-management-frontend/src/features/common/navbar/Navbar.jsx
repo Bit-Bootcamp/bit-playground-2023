@@ -1,9 +1,13 @@
-import React from "react";
 import { BookOpenIcon } from "@heroicons/react/24/solid";
 
 import { Link, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addUser } from "../../../api/globalSlices/user.slics";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+
   return (
     <header aria-label="Site Header" className="bg-white">
       <div className="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
@@ -73,19 +77,33 @@ const Navbar = () => {
 
           <div className="flex items-center gap-4">
             <div className="sm:flex sm:gap-4">
-              <Link
-                className="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-                to="/login"
-              >
-                Login
-              </Link>
+              {user ? (
+                <button
+                  className="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+                  onClick={(e) => {
+                    localStorage.removeItem("access_token");
+                    dispatch(addUser(null));
+                  }}
+                >
+                  logout
+                </button>
+              ) : (
+                <>
+                  <Link
+                    className="block rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
+                    to="/login"
+                  >
+                    Login
+                  </Link>
 
-              <Link
-                className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
-                to="/register"
-              >
-                Register
-              </Link>
+                  <Link
+                    className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 transition hover:text-teal-600/75 sm:block"
+                    to="/register"
+                  >
+                    Register
+                  </Link>
+                </>
+              )}
             </div>
 
             <button className="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 md:hidden">

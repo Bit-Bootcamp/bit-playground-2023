@@ -11,6 +11,7 @@ import {
   uploadMulti,
   uploadSingle,
 } from "../middlewares/multer.middleware.js";
+import { protect } from "../middlewares/auth.middleware.js";
 
 /**
  * @swagger
@@ -126,16 +127,16 @@ const router = Router();
  *                    $ref: '#/components/schemas/students'
  *
  */
-router.route("/").post(addStudent).get(getStudents);
+router.route("/").post(protect, addStudent).get(getStudents);
 
 router.route("/student-stats").get(getStudentStats);
 
 router.route("/upload").post(uploadSingle, resizeImage, (req, res) => {
-  res.send(`students/${req.file.filename}`);
+  res.json({ path: `students/${req.file.filename}` });
 });
 
 router.route("/upload-multi").post(uploadMulti, resizeImages, (req, res) => {
-  res.send(req.body.files);
+  res.json({ paths: req.body.files });
 });
 /**
  * @swagger

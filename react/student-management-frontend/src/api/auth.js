@@ -10,7 +10,11 @@ const authApi = api.injectEndpoints({
       }),
     }),
     getCurrentUser: builder.query({
-      query: () => "/users/currentuser",
+      query: (token) => ({
+        url: "/users/currentuser",
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      providesTags: ["userData"],
     }),
     login: builder.mutation({
       query: (body) => ({
@@ -18,6 +22,7 @@ const authApi = api.injectEndpoints({
         method: "POST",
         body: body,
       }),
+      invalidatesTags: ["userData"],
     }),
   }),
 });
