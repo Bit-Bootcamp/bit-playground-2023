@@ -33,7 +33,14 @@ const studentsApi = api.injectEndpoints({
         }
       },
     }),
+    createProfile: builder.mutation({
+      query: (body) => ({
+        url: "/students",
+        method: "POST",
+        body: body,
+      }),
+    }),
   }),
 });
 
-export const { useUploadMutation } = studentsApi;
+export const { useUploadMutation, useCreateProfileMutation } = studentsApi;

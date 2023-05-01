@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
-import { useUploadMutation } from "../../api/students";
+import {
+  useCreateProfileMutation,
+  useUploadMutation,
+} from "../../api/students";
 
 const Profile = () => {
   const [formData, setFormData] = useState({});
+  const [createProfile, profileResults] = useCreateProfileMutation();
   const [upload, { data: uploadResponse }] = useUploadMutation();
 
   const handleInput = (e) => {
@@ -20,7 +24,7 @@ const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(formData);
+    createProfile(formData);
   };
 
   const handleUpload = (e) => {
@@ -152,7 +156,7 @@ const Profile = () => {
                   type="radio"
                   name="gender"
                   value="male"
-                  checked={true}
+                  checked={formData.gender === "male"}
                   onChange={() => {
                     setFormData({ ...formData, gender: "male" });
                   }}
@@ -164,7 +168,7 @@ const Profile = () => {
                   type="radio"
                   name="gender"
                   value="male"
-                  checked={true}
+                  checked={formData.gender === "female"}
                   onChange={() => {
                     setFormData({ ...formData, gender: "female" });
                   }}
