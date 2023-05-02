@@ -40,7 +40,14 @@ const studentsApi = api.injectEndpoints({
         body: body,
       }),
     }),
+    getStudents: builder.query({
+      query: () => "/students",
+    }),
   }),
 });
 
-export const { useUploadMutation, useCreateProfileMutation } = studentsApi;
+export const {
+  useUploadMutation,
+  useCreateProfileMutation,
+  useGetStudentsQuery,
+} = studentsApi;

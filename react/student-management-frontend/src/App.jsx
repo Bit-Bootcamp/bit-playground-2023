@@ -10,6 +10,7 @@ import Profile from "./features/profile/Profile";
 import Home from "./features/home/Home";
 import Protected from "./features/protected/Protected";
 import NotAuthorized from "./features/protected/NotAuthorized";
+import Students from "./features/students/students";
 
 function App() {
   const dispatch = useDispatch();
@@ -34,6 +35,7 @@ function App() {
         <Route path="/403" element={<NotAuthorized />} />
 
         <Route path="/profile" element={<Profile />} />
+        <Route path="/students" element={<Students />} />
 
         <Route element={<Protected user={user} />}>
           <Route path="/" element={<Home />} />

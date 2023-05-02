@@ -23,10 +23,13 @@ export const getStudents = async (req, res) => {
     });
 
     if (req.query.search) {
-      queryObj.fullName = new RegExp(req.query.search, "i");
+      queryObj.fullname = new RegExp(req.query.search, "i");
     }
 
     const getQuery = Student.find(queryObj);
+
+    const countQuery = getQuery.clone();
+    const countResults = await countQuery.count();
 
     if (req.query.sort) {
       getQuery.sort(req.query.sort);
@@ -44,8 +47,9 @@ export const getStudents = async (req, res) => {
 
     const students = await getQuery;
 
-    res.json({ status: "success", results: students.length, data: students });
+    res.json({ status: "success", results: countResults, data: students });
   } catch (err) {
+    console.log(err);
     res.status(400).json({ status: "error", data: err });
   }
 };
